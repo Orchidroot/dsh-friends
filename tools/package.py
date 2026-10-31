@@ -3,7 +3,7 @@ from pathlib import Path
 from zipfile import ZipFile, ZIP_DEFLATED
 
 root = Path(__file__).resolve().parents[1]
-output = root / 'dsh-friends-source-0.8.0.zip'
+output = root / 'dsh-friends-source-0.8.1.zip'
 files = [root / name for name in ['package.json', 'README.md', 'LICENSE', 'SECURITY.md', 'CONTRIBUTING.md', 'PUBLIC-INSTANCE.md', 'Dockerfile', 'compose.yaml', '.gitignore', '.dockerignore']]
 for folder in ['server', 'plugin', 'test', 'tools', '.github', 'docs']:
     for path in (root / folder).rglob('*'):
@@ -19,7 +19,7 @@ print(f'Created {output.name}: {len(files)} source files; no identity database o
 
 # Validate the separate npm artifact against current source without extracting paths.
 import tarfile
-artifact = root / 'dsh-friends-plugin-0.8.0.tgz'
+artifact = root / 'dsh-friends-plugin-0.8.1.tgz'
 if artifact.is_file():
     with tarfile.open(artifact, 'r:gz') as archive:
         for member in archive.getmembers():
