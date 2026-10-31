@@ -1,4 +1,4 @@
-# DSH Friends · 好友浮窗、聊天与个人资料 0.7.1
+# DSH Friends · 好友浮窗、聊天与个人资料 0.8.0
 
 Steam 风格的 **DSH 原生插件 + 可自部署好友服务**，不是 Steam 接口。新增 DSH 内可拖动、缩放、最小化的好友浮窗和多标签聊天窗口；它们不是独立系统窗口。
 
@@ -74,11 +74,11 @@ npm start
 
 ## 安装插件
 
-安装 `plugin` 目录或 `dsh-friends-plugin-0.7.1.tgz`，不要安装项目根目录（它是服务端）。确认 Host 信任提示；插件在 DSH 进程内运行。目标 DSH `>=0.2.1-rc.5 <0.3.0`，使用自带 Schema 与 React，无前端构建步骤。
+安装 `plugin` 目录或 `dsh-friends-plugin-0.8.0.tgz`，不要安装项目根目录（它是服务端）。确认 Host 信任提示；插件在 DSH 进程内运行。目标 DSH `>=0.2.1-rc.5 <0.3.0`，使用自带 Schema 与 React，无前端构建步骤。
 
 serviceUrl 默认 `http://127.0.0.1:8787`，指 Host 所在机器可访问的服务 origin。改成别人的服务就填对方的 HTTPS 域名；改完必须重启 DSH 才生效（在 DSH「插件」页编辑，或改 profile 的 `cordis.patch.yml`）。远程必须 HTTPS，禁止路径、query、账号密码、跳转。autoAwayMinutes 默认 10，0 关闭自动离开。
 
-升级后按 DSH 提示刷新或重启。**磁盘版本不代表运行 Host 版本**，state RPC 的 version 应为 0.7.1。身份按服务 origin 哈希，存在 ctx.credentials grant 记录，跨端口变化/刷新/Host 重启保留；换电脑或 origin 不自动同步。**插件更新后 Host 侧代码需要重启 DSH 才生效**，浮窗里会提示；界面会显示当前运行版本提示。
+升级后按 DSH 提示刷新或重启。**磁盘版本不代表运行 Host 版本**，state RPC 的 version 应为 0.8.0。身份按服务 origin 哈希，存在 ctx.credentials grant 记录，跨端口变化/刷新/Host 重启保留；换电脑或 origin 不自动同步。**插件更新后 Host 侧代码需要重启 DSH 才生效**，浮窗里会提示；界面会显示当前运行版本提示。
 
 ```sh
 cd plugin
