@@ -7,3 +7,4 @@ artifacts/
 *.sqlite-wal
 *.sqlite-shm
 *.zip
+*.local.md
