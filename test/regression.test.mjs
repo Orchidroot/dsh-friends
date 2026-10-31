@@ -58,14 +58,15 @@ test('failed signup codes do not exhaust the successful signup quota', async (t)
   assert.equal((await api('/api/register', { name: 'over quota', signupCode: 'example-test' })).status, 429);
 });
 
-test('standalone assets are served with restrictive CSP and no external dependencies', async (t) => {
+test('the service exposes an API only — no bundled website to keep in sync', async (t) => {
   const { base } = await service(t);
-  for (const path of ['/', '/app.js', '/style.css']) {
+  for (const path of ['/', '/index.html', '/app.js', '/style.css']) {
     const response = await fetch(base + path);
-    assert.equal(response.status, 200);
-    assert.match(response.headers.get('Content-Security-Policy'), /script-src 'self'/);
-    const content = await response.text(); assert.ok(content.length > 100);
-    if (path === '/') assert.ok(!/https?:\/\//.test(content));
+    assert.equal(response.status, 404, path + ' must not serve a page');
+    assert.ok(response.headers.get('Content-Type').startsWith('application/json'));
+    assert.deepEqual(Object.keys(await response.json()), ['error']);
   }
   assert.equal((await fetch(base + '/server/service.mjs')).status, 404);
+  assert.equal((await fetch(base + '/healthz')).status, 200);
 });
+

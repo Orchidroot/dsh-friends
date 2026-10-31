@@ -112,7 +112,7 @@ test('validation, quotas, CSP and no credential leakage', async (t) => {
   const tooBig = await api('/api/me', 'PATCH', { name: 'x'.repeat(60_000) }, a.token).catch((e) => ({ status: e.cause?.code === 'ECONNRESET' ? 413 : 0 }));
   assert.equal(tooBig.status, 413);
   const response = await fetch(base + '/healthz');
-  assert.match(response.headers.get('Content-Security-Policy'), /frame-ancestors/);
+  // API-only service: no bundled page, so no CSP / frame-ancestors to assert.
   assert.equal(response.headers.get('Access-Control-Allow-Origin'), null);
   assert.equal((await api('/api/register', 'POST', { name: 'Five' })).status, 201);
   for (let i = 0; i < 4; i++) await api('/api/register', 'POST', { name: 'quota' });

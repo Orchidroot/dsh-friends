@@ -2,11 +2,7 @@ import { createServer } from 'node:http';
 import { DatabaseSync } from 'node:sqlite';
 import { randomBytes, createHash, randomUUID } from 'node:crypto';
 import { mkdirSync, chmodSync } from 'node:fs';
-import { readFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const WEB = fileURLToPath(new URL('../web/', import.meta.url));
 const STATES = new Set(['online', 'away', 'busy', 'invisible']);
 const hash = (value) => createHash('sha256').update(value).digest('hex');
 class HttpError extends Error {
@@ -22,8 +18,6 @@ export function createFriendsService(options = {}) {
   const publicOrigin = options.publicOrigin ? new URL(options.publicOrigin).origin : null;
   const maxUsers = options.maxUsers ?? 10_000;
   const signupCode = options.signupCode ?? '';
-  const frames = options.frameAncestors ?? "'self' http://127.0.0.1:* http://localhost:*";
-  if (/[;\r\n]/.test(frames)) throw new Error('Invalid frameAncestors');
   if (database !== ':memory:') mkdirSync(dirname(database), { recursive: true, mode: 0o700 });
   const db = new DatabaseSync(database);
   db.exec(`PRAGMA journal_mode = WAL; PRAGMA foreign_keys = ON; PRAGMA busy_timeout = 5000;
@@ -256,7 +250,6 @@ export function createFriendsService(options = {}) {
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('Referrer-Policy', 'no-referrer');
     res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
-    res.setHeader('Content-Security-Policy', `default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors ${frames}`);
     try {
       if (closing) fail(503, '服务正在关闭');
       const path = new URL(req.url, 'http://localhost').pathname;
@@ -269,12 +262,8 @@ export function createFriendsService(options = {}) {
       const ip = req.socket.remoteAddress ?? 'unknown';
       if (path === '/healthz' && method === 'GET') return json(res, 200, { ok: true });
       if (!path.startsWith('/api/')) {
-        const files = { '/': ['index.html', 'text/html; charset=utf-8'], '/index.html': ['index.html', 'text/html; charset=utf-8'], '/app.js': ['app.js', 'text/javascript; charset=utf-8'], '/style.css': ['style.css', 'text/css; charset=utf-8'] };
-        const file = files[path];
-        if (!file || !['GET', 'HEAD'].includes(method)) fail(404, '页面不存在');
-        const content = await readFile(resolve(WEB, file[0]));
-        res.writeHead(200, { 'Content-Type': file[1] });
-        return res.end(method === 'HEAD' ? undefined : content);
+        // API-only: there is no bundled website, so everything else is simply absent.
+        return json(res, 404, { error: '这个地址只提供 API，没有网页界面' });
       }
       rate(`api:${ip}`, options.ipLimitMinute ?? 10_000);
       if (path === '/api/register' && method === 'POST') {

@@ -34,4 +34,4 @@
 - 容器 `dsh-friends`（`docker run --restart unless-stopped`），只绑 `127.0.0.1:8787`
 - nginx `friends.150-109-84-45.nip.io` 反代 + certbot 自动续期（`nip.io` 把域名解析到该 IP）
 - 数据在 `/home/admin/friends/data/friends.sqlite`
-- 想限制注册可以给容器加 `SIGNUP_CODE=<邀请码>` 后重启，插件和独立网页都有邀请码输入框
+- 想限制注册可以给容器加 `SIGNUP_CODE=<邀请码>` 后重启，插件创建身份时会要求填写邀请码

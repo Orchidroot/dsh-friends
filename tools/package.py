@@ -5,7 +5,7 @@ from zipfile import ZipFile, ZIP_DEFLATED
 root = Path(__file__).resolve().parents[1]
 output = root / 'dsh-friends-source-0.7.1.zip'
 files = [root / name for name in ['package.json', 'README.md', 'LICENSE', 'SECURITY.md', 'CONTRIBUTING.md', 'PUBLIC-INSTANCE.md', 'Dockerfile', 'compose.yaml', '.gitignore', '.dockerignore']]
-for folder in ['server', 'web', 'plugin', 'test', 'tools', '.github', 'docs']:
+for folder in ['server', 'plugin', 'test', 'tools', '.github', 'docs']:
     for path in (root / folder).rglob('*'):
         if path.is_file() and not any(part in {'node_modules', '__pycache__', '.git'} for part in path.relative_to(root).parts) and path.suffix not in {'.tgz', '.zip', '.sqlite', '.pyc'}:
             files.append(path)

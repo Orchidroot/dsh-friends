@@ -68,7 +68,7 @@ npm start            # 需要 Node 24+；默认 127.0.0.1:8787
 npm start
 ```
 
-默认只监听 `http://127.0.0.1:8787`，数据在 `./data`。SQLite experimental warning 不代表失败。独立网页目前仅支持好友/状态，**本次聊天界面在 DSH 插件中**。
+默认只监听 `http://127.0.0.1:8787`，数据在 `./data`。SQLite experimental warning 不代表失败。**服务只提供 API，没有网页界面**（早期版本自带过一个只支持好友/状态的网页，已移除）；除 `/api/*` 与 `/healthz` 之外的路径一律返回 404 JSON。所有界面都在 DSH 插件里。
 
 0.2.x 数据库自动加表/列，身份和好友保留。升级前停服务，备份整个 DATA_DIR。0.1.x 曾使用浏览器身份，不能自动迁移到 DSH 凭据库。
 
@@ -99,7 +99,7 @@ docker compose up -d --build
 
 [Compose](compose.yaml) 仅发布回环端口，非 root 容器与命名数据卷。公网用 Caddy/nginx HTTPS 反代至服务端，设置 PUBLIC_ORIGIN 与每人的 serviceUrl 为同一 HTTPS origin，可用 SIGNUP_CODE 限制注册。未设置开机自启或公网暴露。
 
-环境变量：HOST（127.0.0.1）、PORT（8787）、DATA_DIR（./data）、PUBLIC_ORIGIN、SIGNUP_CODE、REGISTER_LIMIT_HOUR（100）、IP_LIMIT_MINUTE（10000）、IDENTITY_LIMIT_MINUTE（300）、FRAME_ANCESTORS。默认每身份每分钟 60 条聊天；最多 500 好友、100 待处理申请、20 租约和 5 条 SSE。全服最多 10000 身份，单进程 SQLite，不支持多实例共享在线状态。不信任 X-Forwarded-For，反代用户共享出口 IP 额度。
+环境变量：HOST（127.0.0.1）、PORT（8787）、DATA_DIR（./data）、PUBLIC_ORIGIN、SIGNUP_CODE、REGISTER_LIMIT_HOUR（100）、IP_LIMIT_MINUTE（10000）、IDENTITY_LIMIT_MINUTE（300）。默认每身份每分钟 60 条聊天；最多 500 好友、100 待处理申请、20 租约和 5 条 SSE。全服最多 10000 身份，单进程 SQLite，不支持多实例共享在线状态。不信任 X-Forwarded-For，反代用户共享出口 IP 额度。
 
 多设备状态取在线 > 忙碌 > 离开，隐藏设备不覆盖可见设备。隐身活动不更新最后在线。卸载尽力释放租约，失败时约 45 秒自然离线；凭据保留可重装继续使用。
 
