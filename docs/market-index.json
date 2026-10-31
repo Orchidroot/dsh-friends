@@ -29,7 +29,7 @@
         "en": "Floating friends window, multi-tab chat, custom avatars and status words. Needs a friends service: point serviceUrl at your own, or at the public trial instance.",
         "zh": "好友浮窗、多标签聊天、自定义头像和状态词条。需要一台好友服务：serviceUrl 指向自己的服务，或公共体验实例。"
       },
-      "icon": "https://github.com/Orchidroot/dsh-friends-plugin/raw/3e5dda9402924eddd77ee661b3f0a4b9fd1bb543/icon.svg",
+      "icon": "https://github.com/Orchidroot/dsh-friends-plugin/raw/63beb0b7bd450a5f4b7b39b0608c1a2444128b5e/icon.svg",
       "author": "Orchidroot",
       "homepage": "https://github.com/Orchidroot/dsh-friends",
       "repository": {
@@ -40,16 +40,16 @@
         "friends",
         "chat",
         "presence",
-        "steam-like"
+        "status"
       ],
       "versions": [
         {
-          "version": "0.8.1",
-          "publishTimestamp": 1793453837,
+          "version": "0.8.2",
+          "publishTimestamp": 1793455996,
           "source": {
             "type": "git",
             "url": "https://github.com/Orchidroot/dsh-friends-plugin",
-            "commit": "3e5dda9402924eddd77ee661b3f0a4b9fd1bb543"
+            "commit": "63beb0b7bd450a5f4b7b39b0608c1a2444128b5e"
           },
           "engines": {
             "dsh": ">=0.2.1-rc.5 <0.3.0"

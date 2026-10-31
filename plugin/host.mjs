@@ -323,7 +323,7 @@ export function createAgent({ store, call, deviceId, connect, heartbeatMs = 15_0
   const after = async () => { await beat(); await poll(); return view(); };
   function view() {
     return {
-      revision, version:'0.8.1', link, error: lastError, hasIdentity: !!identity, user, inboxEpoch:chat?.epoch,
+      revision, version:'0.8.2', link, error: lastError, hasIdentity: !!identity, user, inboxEpoch:chat?.epoch,
       status: identity?.status ?? 'online', paused: identity?.paused ?? false,
       effectiveStatus: identity && !identity.paused ? effectiveStatus() : 'offline',
       activity: identity && !identity.paused ? currentActivity() : 'idle',

@@ -1,6 +1,6 @@
 {
   "name": "dsh-friends-plugin",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "Floating friends windows and private one-to-one text chats for DSH with a self-hosted service",
   "type": "module",
   "license": "MIT",

@@ -1,8 +1,6 @@
-# DSH Friends · 好友浮窗、聊天与个人资料 0.8.1
+# DSH Friends · 好友浮窗、聊天与个人资料 0.8.2
 
-DSH 插件，加一个自己部署的好友服务。装完 DSH 里会多一个浮窗式的 Steam 好友列表，能看谁在线、在干什么，也能聊天。它不是 Steam 接口，也不是系统级独立窗口。
-
-## 先把服务说清楚
+DSH 插件，加一个自己部署的好友服务。装完 DSH 里会多一个浮窗式的好友列表，能看谁在线、在干什么，也能聊天。
 
 插件默认连本机 `http://127.0.0.1:8787`，那是"服务跑在自己电脑上"用的。不改这个地址，你只能看到自己。
 
@@ -76,58 +74,28 @@ npm start
 
 ## 安装插件
 
-安装 `plugin` 目录或 `dsh-friends-plugin-0.8.1.tgz`，不要安装项目根目录（它是服务端）。确认 Host 信任提示；插件在 DSH 进程内运行。目标 DSH `>=0.2.1-rc.5 <0.3.0`，使用自带 Schema 与 React，无前端构建步骤。
+安装 `plugin` 目录或 `dsh-friends-plugin-0.8.2.tgz`，不要安装项目根目录（它是服务端）。确认 Host 信任提示；插件在 DSH 进程内运行。目标 DSH `>=0.2.1-rc.5 <0.3.0`，使用自带 Schema 与 React，无前端构建步骤。
 
 serviceUrl 默认 `http://127.0.0.1:8787`，指 Host 所在机器可访问的服务 origin。改成别人的服务就填对方的 HTTPS 域名；改完必须重启 DSH 才生效（在 DSH「插件」页编辑，或改 profile 的 `cordis.patch.yml`）。远程必须 HTTPS，禁止路径、query、账号密码、跳转。autoAwayMinutes 默认 10，0 关闭自动离开。
 
-升级后按 DSH 提示刷新或重启。**磁盘版本不代表运行 Host 版本**，state RPC 的 version 应为 0.8.1。身份按服务 origin 哈希，存在 ctx.credentials grant 记录，跨端口变化/刷新/Host 重启保留；换电脑或 origin 不自动同步。**插件更新后 Host 侧代码需要重启 DSH 才生效**（只换了磁盘上的包、没重启，运行的还是旧 Host 代码）。
+升级后按 DSH 提示刷新或重启。**磁盘版本不代表运行 Host 版本**，state RPC 的 version 应为 0.8.2。身份按服务 origin 哈希，存在 ctx.credentials grant 记录，跨端口变化/刷新/Host 重启保留；换电脑或 origin 不自动同步。**插件更新后 Host 侧代码需要重启 DSH 才生效**（只换了磁盘上的包、没重启，运行的还是旧 Host 代码）。
 
 ```sh
 cd plugin
 npm pack --ignore-scripts
 ```
 
-## 发布到 DSH 插件市场
+## 插件市场
 
-DSH 没有中心化的商店。它的「插件市场」读的是**你自己配置的索引 URL**：一份 JSON（格式 1），列出可安装的插件包和版本。所以「发布」＝把索引挂到公网，让用户加它。
+社区市场 dshmarket 的目录来自 [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin)。收录申请按它的 [贡献指南](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/blob/main/contributing.md) 提交，只需增加一个插件条目文件。审核通过后才会上架。
 
-本项目已经发布：
+可安装的插件包在 [dsh-friends-plugin](https://github.com/Orchidroot/dsh-friends-plugin)，本仓库保留服务端、测试和完整源码。
 
-- 市场索引：`https://raw.githubusercontent.com/Orchidroot/dsh-friends/main/docs/market-index.json`
-- 可安装包：`https://github.com/Orchidroot/dsh-friends-plugin`（独立仓库，仓库根就是插件包）
+另外提供一个自定义索引，供启用了 DSH 原生「发现」索引功能的人使用，不等于社区市场已收录：
 
-### 用户怎么加
+https://raw.githubusercontent.com/Orchidroot/dsh-friends/main/docs/market-index.json
 
-1. DSH 设置 → 插件市场 → 添加索引源，填上面的索引 URL
-2. 在市场里搜「DSH 好友」，点安装
-3. 安装后仍要把 `serviceUrl` 指到自己的好友服务（见 [公共体验实例](./PUBLIC-INSTANCE.md) 或自建）
-
-### 为什么有两个仓库
-
-市场的 git 源是把**仓库根目录**当安装包（pnpm 对 git 依赖就是这么处理的）。本仓库的根是服务端 `dsh-friends-service`，所以插件包单独放在 `dsh-friends-plugin` 仓库，由脚本同步，避免手动复制走样。
-
-### 发新版
-
-1. 改 `plugin/package.json` 的版本号
-2. 跑一次同步脚本，它会提交并推送插件仓库，再按新的 commit 重写索引：
-
-   ```sh
-   bash tools/publish-plugin.sh
-   ```
-
-3. 提交并推送索引：
-
-   ```sh
-   git add docs/market-index.json
-   git commit -m "chore(market): 0.8.x"
-   git push
-   ```
-
-索引里的版本是**钉住 commit**的，所以用户装到的永远是校验过的那一份；要撤版本，把该版本的索引项删掉即可（已装的人不受影响）。
-
-### 想发到 npm
-
-索引的 `source` 也支持 `{"type":"npm"}`，安装命令就是 `dsh-friends-plugin@<version>`。这条路需要你有 npm 账号并 `npm login`，好处是不用维护第二个仓库；发布前把 `plugin/` 目录单独 `npm publish` 即可。
+维护时运行 `bash tools/publish-plugin.sh` 同步插件仓库和索引，再提交并推送本仓库。
 
 ## 实时链路与权限
 

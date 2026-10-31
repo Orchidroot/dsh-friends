@@ -59,7 +59,7 @@ const index = {
     homepage: "https://github.com/Orchidroot/dsh-friends",
     repository: { url: "https://github.com/Orchidroot/dsh-friends-plugin" },
     category: "social",
-    keywords: ["friends", "chat", "presence", "steam-like"],
+    keywords: ["friends", "chat", "presence", "status"],
     versions: [{
       version: VERSION,
       publishTimestamp: Math.floor(Date.now() / 1000),
