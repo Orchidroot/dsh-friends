@@ -87,6 +87,48 @@ cd plugin
 npm pack --ignore-scripts
 ```
 
+## 发布到 DSH 插件市场
+
+DSH 没有中心化的商店。它的「插件市场」读的是**你自己配置的索引 URL**：一份 JSON（格式 1），列出可安装的插件包和版本。所以「发布」＝把索引挂到公网，让用户加它。
+
+本项目已经发布：
+
+- 市场索引：`https://raw.githubusercontent.com/Orchidroot/dsh-friends/main/docs/market-index.json`
+- 可安装包：`https://github.com/Orchidroot/dsh-friends-plugin`（独立仓库，仓库根就是插件包）
+
+### 用户怎么加
+
+1. DSH 设置 → 插件市场 → 添加索引源，填上面的索引 URL
+2. 在市场里搜「DSH 好友」，点安装
+3. 安装后仍要把 `serviceUrl` 指到自己的好友服务（见 [公共体验实例](./PUBLIC-INSTANCE.md) 或自建）
+
+### 为什么有两个仓库
+
+市场的 git 源是把**仓库根目录**当安装包（pnpm 对 git 依赖就是这么处理的）。本仓库的根是服务端 `dsh-friends-service`，所以插件包单独放在 `dsh-friends-plugin` 仓库，由脚本同步，避免手动复制走样。
+
+### 发新版
+
+1. 改 `plugin/package.json` 的版本号
+2. 跑一次同步脚本，它会提交并推送插件仓库，再按新的 commit 重写索引：
+
+   ```sh
+   bash tools/publish-plugin.sh
+   ```
+
+3. 提交并推送索引：
+
+   ```sh
+   git add docs/market-index.json
+   git commit -m "chore(market): 0.8.x"
+   git push
+   ```
+
+索引里的版本是**钉住 commit**的，所以用户装到的永远是校验过的那一份；要撤版本，把该版本的索引项删掉即可（已装的人不受影响）。
+
+### 想发到 npm
+
+索引的 `source` 也支持 `{"type":"npm"}`，安装命令就是 `dsh-friends-plugin@<version>`。这条路需要你有 npm 账号并 `npm login`，好处是不用维护第二个仓库；发布前把 `plugin/` 目录单独 `npm publish` 即可。
+
 ## 实时链路与权限
 
 浏览器调用 owner 鉴权的 `/api/dsh-friends.rpc` 固定操作表，不能指定上游路径或获取令牌。Host 15 秒心跳，SSE 接收好友/消息变化，浏览器通过最多 20 秒的可取消长轮询即时更新；SSE 断线退避重连，保留 5 秒/60 秒快照轮询兜底，事件缺口用历史游标补取。

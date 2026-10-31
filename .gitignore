@@ -8,3 +8,4 @@ artifacts/
 *.sqlite-shm
 *.zip
 *.local.md
+.market/

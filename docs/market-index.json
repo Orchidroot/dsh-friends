@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "title": {
+    "en": "DSH Friends",
+    "zh": "DSH 好友"
+  },
+  "description": {
+    "en": "Floating friends list, chat and rich presence for DSH, backed by a self-hosted service.",
+    "zh": "DSH 里的好友浮窗、聊天和在线状态，配套一个可自部署的好友服务。"
+  },
+  "metadata": {
+    "categories": {
+      "social": {
+        "title": {
+          "en": "Social",
+          "zh": "社交"
+        }
+      }
+    }
+  },
+  "plugins": [
+    {
+      "name": "dsh-friends-plugin",
+      "title": {
+        "en": "DSH Friends",
+        "zh": "DSH 好友"
+      },
+      "description": {
+        "en": "Floating friends window, multi-tab chat, custom avatars and status words. Needs a friends service: point serviceUrl at your own, or at the public trial instance.",
+        "zh": "好友浮窗、多标签聊天、自定义头像和状态词条。需要一台好友服务：serviceUrl 指向自己的服务，或公共体验实例。"
+      },
+      "icon": "https://github.com/Orchidroot/dsh-friends-plugin/raw/3e5dda9402924eddd77ee661b3f0a4b9fd1bb543/icon.svg",
+      "author": "Orchidroot",
+      "homepage": "https://github.com/Orchidroot/dsh-friends",
+      "repository": {
+        "url": "https://github.com/Orchidroot/dsh-friends-plugin"
+      },
+      "category": "social",
+      "keywords": [
+        "friends",
+        "chat",
+        "presence",
+        "steam-like"
+      ],
+      "versions": [
+        {
+          "version": "0.8.1",
+          "publishTimestamp": 1793453837,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/Orchidroot/dsh-friends-plugin",
+            "commit": "3e5dda9402924eddd77ee661b3f0a4b9fd1bb543"
+          },
+          "engines": {
+            "dsh": ">=0.2.1-rc.5 <0.3.0"
+          }
+        }
+      ]
+    }
+  ]
+}
