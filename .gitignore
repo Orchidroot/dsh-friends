@@ -1,0 +1,9 @@
+data/
+node_modules/
+artifacts/
+*.tgz
+.env
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.zip

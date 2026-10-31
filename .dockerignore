@@ -1,0 +1,10 @@
+data
+node_modules
+artifacts
+*.tgz
+.git
+.env
+test
+tools
+plugin
+README.md

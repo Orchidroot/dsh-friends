@@ -1,0 +1,22 @@
+services:
+  friends:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8787:8787"
+    environment:
+      HOST: 0.0.0.0
+      PORT: 8787
+      DATA_DIR: /app/data
+      PUBLIC_ORIGIN: ${PUBLIC_ORIGIN:-http://127.0.0.1:8787}
+      SIGNUP_CODE: ${SIGNUP_CODE:-}
+      REGISTER_LIMIT_HOUR: ${REGISTER_LIMIT_HOUR:-100}
+      IP_LIMIT_MINUTE: ${IP_LIMIT_MINUTE:-10000}
+    volumes:
+      - friends-data:/app/data
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+volumes:
+  friends-data:

@@ -1,0 +1,6 @@
+- insert:
+    - id: dsh-friends
+      name: dsh-friends-plugin
+      config:
+        serviceUrl: http://127.0.0.1:8787
+        autoAwayMinutes: 10
