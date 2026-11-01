@@ -1,14 +1,39 @@
 {
   "name": "dsh-friends-service",
   "version": "0.8.2",
-  "private": true,
+  "description": "Self-hosted friends, presence and chat service for the DSH Friends plugin.",
   "type": "module",
+  "license": "MIT",
+  "author": "Orchidroot",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Orchidroot/dsh-friends.git"
+  },
+  "homepage": "https://github.com/Orchidroot/dsh-friends#readme",
+  "bugs": "https://github.com/Orchidroot/dsh-friends/issues",
+  "bin": {
+    "dsh-friends-service": "server/cli.mjs"
+  },
+  "files": [
+    "server/cli.mjs",
+    "server/main.mjs",
+    "server/service.mjs",
+    "docs/float.jpg",
+    "docs/profile.jpg",
+    "SECURITY.md",
+    "PUBLIC-INSTANCE.md"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "engines": {
     "node": ">=24"
   },
   "scripts": {
-    "start": "node server/main.mjs",
+    "start": "node server/cli.mjs",
     "test": "node --test test/*.test.mjs",
-    "check": "node --check server/main.mjs && node --check server/service.mjs"
+    "check": "node --check server/cli.mjs && node --check server/main.mjs && node --check server/service.mjs",
+    "prepublishOnly": "npm run check && npm test"
   }
 }
