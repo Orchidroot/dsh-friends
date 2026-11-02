@@ -2,7 +2,21 @@
 
 DSH 内的浮动好友列表与多标签一对一文字聊天。标题可拖动、角落可缩放，可最小化或关闭；切换页面保留，重新加载重置布局。
 
-需要另行运行好友服务（**只有 API，没有网页界面**），所有界面都在本插件的浮窗里。
+需要另行运行好友服务（**只有 API，没有网页界面**），所有界面都在本插件的浮窗里。服务端源码和 Docker 部署文件都在[同一主仓库](https://github.com/Orchidroot/dsh-friends)，不是装完插件就自动有了服务。
+
+## 先连接好友服务
+
+自己部署的话，在运行服务的电脑或服务器上安装 Node.js 24+，然后执行：
+
+```sh
+npx --yes dsh-friends-service@0.8.2
+```
+
+这是[服务端 npm 包](https://www.npmjs.com/package/dsh-friends-service)，不是插件包。默认在前台运行，地址是 `http://127.0.0.1:8787`，数据保存在运行目录的 `./data`；同机 DSH 的 `serviceUrl` 填这个地址。Windows PowerShell 拦截脚本时用 `npx.cmd` 替代 `npx`。Node.js 24+ 只要求部署服务的一方安装，不要求每位插件用户另装。
+
+给其他电脑用，需要域名和 HTTPS 反代，大家的 `serviceUrl` 填同一个 HTTPS 地址。Docker 启动命令和公网 HTTPS 配置见[完整部署说明](https://github.com/Orchidroot/dsh-friends#快速开始)及[公网部署](https://github.com/Orchidroot/dsh-friends#公网部署)。npm 命令本身不配置开机启动，也不自动开放公网。
+
+不想自己部署，也可以把 `serviceUrl` 改为 `https://friends.150-109-84-45.nip.io`，然后重启 DSH。这是临时公共体验实例，可能停服，管理员能读取聊天；使用前请看[公共实例说明](https://github.com/Orchidroot/dsh-friends/blob/main/PUBLIC-INSTANCE.md)。不要往这里发敏感内容。
 
 ## 配置与安装
 
@@ -25,7 +39,7 @@ DSH 内的浮动好友列表与多标签一对一文字聊天。标题可拖动�
 
 [index.js](index.js) 注册 owner 鉴权 RPC；[host.mjs](host.mjs) 管理身份/心跳/自动离开；[chat.mjs](chat.mjs) 处理消息投影与可取消长轮询；[stream.mjs](stream.mjs) 订阅 SSE 并退避重连；[client.js](client.js) 为 React-only lazy factory，注册管理页、侧栏与 overlay，使用 DSH 主题 token 和中英字典。
 
-85 项自动化测试通过，含真实临时服务的双 Host 聊天和安全竞态回归。浮窗与聊天已在当前 DSH 真实浏览器中截图核对；事件测试使用轻量 React stub。完整 DSH 重启、开机自启、公网部署与 Docker 构建不在本次已验证范围。
+完整项目的 100 项自动化测试通过，含真实临时服务的双 Host 聊天、安全竞态回归和 npm 命令入口。浮窗与聊天已在 DSH 真实浏览器中核对，事件测试使用轻量 React stub，不代替视觉验收。具体已验证范围和 Docker 构建限制见[主仓库的验证说明](https://github.com/Orchidroot/dsh-friends#验证与备份)。
 
 ```sh
 npm pack --ignore-scripts
